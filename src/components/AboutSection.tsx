@@ -1,141 +1,84 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Code2, Cloud, Brain, Layout, Sparkles, Zap } from "lucide-react";
+import { Network, Shield, Zap, Users } from "lucide-react";
 
-const proficiencies = [
-  { icon: Code2, label: "React", color: "text-primary" },
-  { icon: Layout, label: "Next.js", color: "text-foreground" },
-  { icon: Cloud, label: "Cloud Architecture", color: "text-accent" },
-  { icon: Brain, label: "AI Integration", color: "text-primary" },
+const highlights = [
+  { icon: Network, label: "Network design & operations" },
+  { icon: Shield, label: "High availability & performance" },
+  { icon: Zap, label: "Automation-driven workflows" },
+  { icon: Users, label: "Strong collaboration mindset" },
 ];
 
 export const AboutSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
   return (
-    <section id="about" className="py-24 relative">
-      <div className="absolute inset-0 mesh-gradient opacity-50" />
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
-            About <span className="gradient-text">&amp; Competencies</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            A strategic blend of technical expertise and business acumen
-          </p>
-        </motion.div>
-
+    <section id="about" className="py-24 bg-secondary/30">
+      <div className="container mx-auto px-6">
         <motion.div
           ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-6xl mx-auto"
         >
-          {/* Executive Summary - Large Card */}
-          <motion.div
-            variants={itemVariants}
-            className="glass-card p-8 md:col-span-2 lg:row-span-2 group hover:border-primary/30 transition-all duration-500"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-display text-2xl font-semibold">Executive Summary</h3>
-            </div>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              A seasoned technologist with a passion for bridging the gap between 
-              <span className="text-foreground font-medium"> technical complexity </span> 
-              and <span className="text-foreground font-medium">business value</span>. 
-              With expertise spanning modern JavaScript frameworks, cloud-native architectures, 
-              and AI-powered solutions, I transform ambitious visions into scalable digital realities.
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="section-heading mb-4">About Me</h2>
+            <p className="section-subheading mx-auto">
+              Focused on reliability, scalability, and real-world impact.
             </p>
-            <div className="mt-6 pt-6 border-t border-border/50">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span className="w-2 h-2 rounded-full bg-primary animate-glow-pulse" />
-                <span>Available for strategic partnerships</span>
-              </div>
-            </div>
-          </motion.div>
+          </div>
 
-          {/* Core Proficiencies - Medium Card */}
-          <motion.div
-            variants={itemVariants}
-            className="glass-card p-6 lg:col-span-2 group hover:border-primary/30 transition-all duration-500"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                <Code2 className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="font-display text-xl font-semibold">Core Proficiencies</h3>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {proficiencies.map((item, index) => (
+          {/* Two Column Layout */}
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Text Column */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                I am a <span className="text-foreground font-medium animated-underline">Data Center Network Engineer</span> with 
+                hands-on experience in designing, operating, and optimizing large-scale 
+                network infrastructures. Currently working at{" "}
+                <span className="text-foreground font-medium">Capgemini</span>, I focus on 
+                building reliable, secure, and scalable systems that support enterprise-grade 
+                data centers.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                My approach combines technical expertise with a deep understanding of 
+                business requirements, ensuring that network solutions not only meet 
+                current needs but are also prepared for future growth and challenges.
+              </p>
+            </motion.div>
+
+            {/* Highlight Cards */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="grid grid-cols-2 gap-4"
+            >
+              {highlights.map((item, index) => (
                 <motion.div
                   key={item.label}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-all cursor-default"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className="card-elevated p-5 group cursor-default"
                 >
-                  <item.icon className={`w-5 h-5 ${item.color}`} />
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                    <item.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <p className="text-sm font-medium text-foreground">{item.label}</p>
                 </motion.div>
               ))}
-            </div>
-          </motion.div>
-
-          {/* Professional Philosophy - Small Card */}
-          <motion.div
-            variants={itemVariants}
-            className="glass-card p-6 lg:col-span-2 group hover:border-accent/30 transition-all duration-500"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="font-display text-xl font-semibold">Philosophy</h3>
-            </div>
-            <p className="text-muted-foreground">
-              <span className="text-foreground font-medium italic">
-                "Innovation through simplicity and performance-first design."
-              </span>
-            </p>
-            <div className="mt-4 flex gap-2">
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                Minimalist
-              </span>
-              <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">
-                Performant
-              </span>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
