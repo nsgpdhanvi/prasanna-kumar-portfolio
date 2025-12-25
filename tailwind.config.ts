@@ -15,20 +15,19 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'Inter',
+  				'Roboto',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
   				'BlinkMacSystemFont',
   				'Segoe UI',
-  				'Roboto',
   				'Helvetica Neue',
   				'Arial',
   				'Noto Sans',
   				'sans-serif'
   			],
   			serif: [
-  				'Lora',
+  				'Libre Caslon Text',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
@@ -37,7 +36,7 @@ export default {
   				'serif'
   			],
   			mono: [
-  				'Space Mono',
+  				'Roboto Mono',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
@@ -145,7 +144,7 @@ export default {
   					transform: 'translateY(0)'
   				}
   			},
-  			'shake': {
+  			shake: {
   				'0%, 100%': {
   					transform: 'translateX(0)'
   				},
@@ -156,7 +155,7 @@ export default {
   					transform: 'translateX(4px)'
   				}
   			},
-  			'glow': {
+  			glow: {
   				'0%, 100%': {
   					boxShadow: '0 0 20px hsl(var(--primary) / 0.3)'
   				},
@@ -172,8 +171,8 @@ export default {
   			'fade-in': 'fade-in 0.4s ease-out forwards',
   			'scale-in': 'scale-in 0.3s ease-out forwards',
   			'slide-up': 'slide-up 0.4s ease-out forwards',
-  			'shake': 'shake 0.5s ease-in-out',
-  			'glow': 'glow 2s ease-in-out infinite'
+  			shake: 'shake 0.5s ease-in-out',
+  			glow: 'glow 2s ease-in-out infinite'
   		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
