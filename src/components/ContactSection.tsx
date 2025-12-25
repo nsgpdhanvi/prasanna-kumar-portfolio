@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, Mail, User, MessageSquare } from "lucide-react";
+import { Send, CheckCircle, Mail, User, MessageSquare, Linkedin } from "lucide-react";
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ export const ContactSection = () => {
     message: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isShaking, setIsShaking] = useState(false);
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,41 +18,62 @@ export const ContactSection = () => {
     return re.test(email);
   };
 
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case "name":
+        return value.trim() ? "" : "Name is required";
+      case "email":
+        if (!value.trim()) return "Email is required";
+        if (!validateEmail(value)) return "Please enter a valid email";
+        return "";
+      case "message":
+        if (!value.trim()) return "Message is required";
+        if (value.trim().length < 20) return "Message must be at least 20 characters";
+        return "";
+      default:
+        return "";
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     
-    // Real-time email validation
-    if (name === "email" && value) {
-      if (!validateEmail(value)) {
-        setErrors((prev) => ({ ...prev, email: "Please enter a valid email" }));
-      } else {
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors.email;
-          return newErrors;
-        });
-      }
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: error }));
     }
+  };
+
+  const handleBlur = (name: string) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name, formData[name as keyof typeof formData]);
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.name.trim() &&
+      validateEmail(formData.email) &&
+      formData.message.trim().length >= 20
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate all fields
     const newErrors: { [key: string]: string } = {};
-    
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!validateEmail(formData.email))
-      newErrors.email = "Please enter a valid email";
-    if (!formData.message.trim()) newErrors.message = "Message is required";
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) newErrors[key] = error;
+    });
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      setIsShaking(true);
-      setTimeout(() => setIsShaking(false), 500);
+      setTouched({ name: true, email: true, message: true });
       return;
     }
     
@@ -66,39 +87,35 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="absolute inset-0 mesh-gradient opacity-40" />
-      
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="contact" className="py-24">
+      <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
-            Let's <span className="gradient-text">Connect</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Ready to collaborate on your next big project? Drop me a message
+          <h2 className="section-heading mb-4">Get in Touch</h2>
+          <p className="section-subheading mx-auto">
+            Let's build something reliable together.
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-lg mx-auto"
-        >
-          <div className="glass-card p-8 md:p-10">
+        <div className="max-w-xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="card-elevated p-6 md:p-8"
+          >
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <motion.form
                   key="form"
                   initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
                   onSubmit={handleSubmit}
                   className="space-y-6"
                 >
@@ -113,15 +130,20 @@ export const ContactSection = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-xl bg-secondary/50 border ${
-                        errors.name ? "border-destructive" : "border-border"
-                      } focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground`}
+                      onBlur={() => handleBlur("name")}
+                      className={`input-field ${
+                        errors.name && touched.name ? "border-destructive focus:border-destructive focus:ring-destructive/20" : ""
+                      }`}
                       placeholder="Your name"
                     />
-                    {errors.name && (
-                      <span className="text-xs text-destructive">
+                    {errors.name && touched.name && (
+                      <motion.span
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-xs text-destructive"
+                      >
                         {errors.name}
-                      </span>
+                      </motion.span>
                     )}
                   </div>
 
@@ -136,15 +158,20 @@ export const ContactSection = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-xl bg-secondary/50 border ${
-                        errors.email ? "border-destructive" : "border-border"
-                      } focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground`}
+                      onBlur={() => handleBlur("email")}
+                      className={`input-field ${
+                        errors.email && touched.email ? "border-destructive focus:border-destructive focus:ring-destructive/20" : ""
+                      }`}
                       placeholder="your@email.com"
                     />
-                    {errors.email && (
-                      <span className="text-xs text-destructive">
+                    {errors.email && touched.email && (
+                      <motion.span
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-xs text-destructive"
+                      >
                         {errors.email}
-                      </span>
+                      </motion.span>
                     )}
                   </div>
 
@@ -158,28 +185,33 @@ export const ContactSection = () => {
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
+                      onBlur={() => handleBlur("message")}
                       rows={4}
-                      className={`w-full px-4 py-3 rounded-xl bg-secondary/50 border ${
-                        errors.message ? "border-destructive" : "border-border"
-                      } focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none text-foreground placeholder:text-muted-foreground`}
-                      placeholder="Tell me about your project..."
+                      className={`input-field resize-none ${
+                        errors.message && touched.message ? "border-destructive focus:border-destructive focus:ring-destructive/20" : ""
+                      }`}
+                      placeholder="Tell me about your project (min 20 characters)..."
                     />
-                    {errors.message && (
-                      <span className="text-xs text-destructive">
+                    {errors.message && touched.message && (
+                      <motion.span
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-xs text-destructive"
+                      >
                         {errors.message}
-                      </span>
+                      </motion.span>
                     )}
                   </div>
 
                   {/* Submit Button */}
                   <motion.button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full py-4 px-6 rounded-xl bg-primary text-primary-foreground font-display font-semibold glow-button transition-all duration-300 flex items-center justify-center gap-2 ${
-                      isShaking ? "animate-shake" : ""
+                    disabled={isSubmitting || !isFormValid()}
+                    className={`w-full btn-primary flex items-center justify-center gap-2 ${
+                      !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
                     }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={isFormValid() ? { scale: 1.01 } : {}}
+                    whileTap={isFormValid() ? { scale: 0.99 } : {}}
                   >
                     {isSubmitting ? (
                       <motion.div
@@ -202,7 +234,7 @@ export const ContactSection = () => {
               ) : (
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-12 text-center"
                 >
@@ -214,21 +246,49 @@ export const ContactSection = () => {
                       stiffness: 200,
                       damping: 15,
                     }}
-                    className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center"
+                    className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center"
                   >
-                    <CheckCircle className="w-10 h-10 text-primary" />
+                    <CheckCircle className="w-8 h-8 text-primary" />
                   </motion.div>
-                  <h3 className="font-display text-2xl font-semibold mb-2">
+                  <h3 className="text-xl font-bold text-foreground mb-2">
                     Message Sent!
                   </h3>
                   <p className="text-muted-foreground">
-                    Thank you for reaching out. I'll get back to you soon.
+                    Thanks for reaching out! I'll get back to you soon.
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex items-center justify-center gap-4 mt-8"
+          >
+            <motion.a
+              href="#"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5" />
+            </motion.a>
+            <motion.a
+              href="#"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              aria-label="Email"
+            >
+              <Mail className="w-5 h-5" />
+            </motion.a>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

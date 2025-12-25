@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Download } from "lucide-react";
 
-const nameWords = ["Nagam", "Somi", "Ganga", "Parvathi", "Prasanna", "Kumar"];
-
 export const HeroSection = () => {
-  const scrollToProjects = () => {
-    const element = document.querySelector("#projects");
+  const scrollToContact = () => {
+    const element = document.querySelector("#contact");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -14,29 +12,17 @@ export const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
-      {/* Animated Mesh Background */}
-      <div className="absolute inset-0 mesh-gradient" />
+      {/* Subtle Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/30" />
       
-      {/* Floating Orbs */}
+      {/* Animated gradient orbs */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl"
+        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl"
         animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-3xl"
-        animate={{
-          x: [0, -40, 0],
-          y: [0, -50, 0],
+          x: [0, 30, 0],
+          y: [0, -20, 0],
         }}
         transition={{
           duration: 10,
@@ -44,83 +30,76 @@ export const HeroSection = () => {
           ease: "easeInOut",
         }}
       />
-
-      {/* Grid Pattern Overlay */}
-      <div 
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `
-            linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
+      <motion.div
+        className="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full bg-accent/5 blur-3xl"
+        animate={{
+          x: [0, -20, 0],
+          y: [0, 30, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
         }}
       />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Name with Word Animation */}
-          <div className="mb-6 overflow-hidden">
-            <motion.div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-              {nameWords.map((word, index) => (
-                <motion.span
-                  key={word}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: index * 0.12,
-                    ease: [0.33, 1, 0.68, 1],
-                  }}
-                  className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground"
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </motion.div>
-          </div>
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Name */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-6"
+          >
+            Prasanna Kumar
+          </motion.h1>
 
-          {/* Sub-headline */}
+          {/* Title */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-xl sm:text-2xl md:text-3xl font-medium text-primary mb-6"
           >
-            Architecting Digital Ecosystems &{" "}
-            <span className="gradient-text font-medium">
-              Synthesizing Professional Excellence
-            </span>
+            Data Center Network Engineer
+          </motion.p>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed"
+          >
+            Designing resilient, scalable, and high-performance network infrastructure 
+            for mission-critical systems.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.button
-              onClick={scrollToProjects}
-              className="group px-8 py-4 bg-primary text-primary-foreground rounded-full font-display font-semibold glow-button transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="btn-primary flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <span className="flex items-center gap-2">
-                View My Work
-                <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-              </span>
+              <Download className="w-4 h-4" />
+              Download Resume
             </motion.button>
 
             <motion.button
-              className="group px-8 py-4 glass-card text-foreground rounded-full font-display font-semibold transition-all duration-300 hover:bg-secondary/50"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={scrollToContact}
+              className="btn-secondary flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <span className="flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                Download CV
-              </span>
+              Contact Me
+              <ArrowDown className="w-4 h-4" />
             </motion.button>
           </motion.div>
         </div>
@@ -130,16 +109,16 @@ export const HeroSection = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 border-muted-foreground/50 flex items-start justify-center p-2"
+          className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-2"
         >
           <motion.div
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="w-1 h-2 bg-primary rounded-full"
           />

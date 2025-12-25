@@ -1,31 +1,18 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Briefcase, Rocket, GraduationCap } from "lucide-react";
+import { Building2, CheckCircle } from "lucide-react";
 
 const experiences = [
   {
-    year: "2024",
-    title: "Strategic Digital Architecture",
-    description:
-      "Leading high-impact digital transformations and UI/UX optimization initiatives. Spearheading the adoption of cutting-edge technologies to drive business growth and operational efficiency.",
-    icon: Rocket,
-    color: "primary",
-  },
-  {
-    year: "2022 - 2023",
-    title: "Full-Stack Innovation",
-    description:
-      "Developing scalable enterprise applications using modern JavaScript frameworks. Building cloud-native solutions with focus on performance, security, and maintainability.",
-    icon: Briefcase,
-    color: "accent",
-  },
-  {
-    year: "Early Career",
-    title: "Foundational Excellence",
-    description:
-      "Academic milestones and initial professional growth in technology. Laying the groundwork for a career centered on technical excellence and continuous learning.",
-    icon: GraduationCap,
-    color: "primary",
+    company: "Capgemini",
+    role: "Data Center Network Engineer",
+    period: "Present",
+    bullets: [
+      "Designed and maintained enterprise data center networks",
+      "Managed routing, switching, and performance optimization",
+      "Collaborated with cross-functional infrastructure teams",
+      "Ensured uptime, redundancy, and security compliance",
+    ],
   },
 ];
 
@@ -36,110 +23,88 @@ export const ExperienceSection = () => {
     offset: ["start end", "end start"],
   });
 
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const lineHeight = useTransform(scrollYProgress, [0.2, 0.8], ["0%", "100%"]);
 
   return (
-    <section id="experience" className="py-24 relative">
+    <section id="experience" className="py-24">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
-            Professional <span className="gradient-text">Journey</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            A narrative of growth, innovation, and impactful contributions
+          <h2 className="section-heading mb-4">Experience</h2>
+          <p className="section-subheading mx-auto">
+            Real-world engineering over theory.
           </p>
         </motion.div>
 
-        <div ref={containerRef} className="relative max-w-4xl mx-auto">
-          {/* Animated Timeline Line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2">
+        <div ref={containerRef} className="relative max-w-3xl mx-auto">
+          {/* Timeline Line */}
+          <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-border">
             <motion.div
               style={{ height: lineHeight }}
-              className="w-full bg-gradient-to-b from-primary via-accent to-primary"
+              className="w-full bg-gradient-to-b from-primary to-accent"
             />
           </div>
 
-          {/* Timeline Items */}
-          <div className="space-y-16">
-            {experiences.map((exp, index) => (
+          {/* Experience Cards */}
+          {experiences.map((exp, index) => (
+            <motion.div
+              key={exp.company}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              className="relative pl-8 md:pl-20 pb-12"
+            >
+              {/* Timeline Dot */}
+              <div className="absolute left-0 md:left-8 -translate-x-1/2 top-0">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="timeline-dot"
+                />
+              </div>
+
+              {/* Content Card */}
               <motion.div
-                key={exp.year}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`relative flex flex-col md:flex-row items-start gap-8 ${
-                  index % 2 === 0 ? "md:flex-row-reverse" : ""
-                }`}
+                whileHover={{ y: -4 }}
+                className="card-elevated p-6 md:p-8"
               >
-                {/* Timeline Dot */}
-                <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4">
-                  <motion.div
-                    whileInView={{ scale: [0, 1.2, 1] }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                    className={`w-4 h-4 rounded-full ${
-                      exp.color === "primary" ? "bg-primary" : "bg-accent"
-                    } ring-4 ring-background`}
-                  />
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <Building2 className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground">{exp.company}</h3>
+                    <p className="text-primary font-medium">{exp.role}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{exp.period}</p>
+                  </div>
                 </div>
 
-                {/* Content Card */}
-                <div
-                  className={`ml-8 md:ml-0 md:w-[calc(50%-2rem)] ${
-                    index % 2 === 0 ? "md:pr-8" : "md:pl-8"
-                  }`}
-                >
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="glass-card p-6 group hover:border-primary/30 transition-all duration-500"
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          exp.color === "primary"
-                            ? "bg-primary/10"
-                            : "bg-accent/10"
-                        }`}
-                      >
-                        <exp.icon
-                          className={`w-5 h-5 ${
-                            exp.color === "primary"
-                              ? "text-primary"
-                              : "text-accent"
-                          }`}
-                        />
-                      </div>
-                      <span
-                        className={`font-display text-sm font-semibold ${
-                          exp.color === "primary"
-                            ? "text-primary"
-                            : "text-accent"
-                        }`}
-                      >
-                        {exp.year}
-                      </span>
-                    </div>
-                    <h3 className="font-display text-xl font-semibold mb-3">
-                      {exp.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {exp.description}
-                    </p>
-                  </motion.div>
-                </div>
-
-                {/* Empty space for opposite side */}
-                <div className="hidden md:block md:w-[calc(50%-2rem)]" />
+                <ul className="space-y-3">
+                  {exp.bullets.map((bullet, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+                      className="flex items-start gap-3 text-muted-foreground"
+                    >
+                      <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                      <span>{bullet}</span>
+                    </motion.li>
+                  ))}
+                </ul>
               </motion.div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
