@@ -273,6 +273,7 @@ export const ContactSection = () => {
               href="https://www.linkedin.com/in/prasanna-kumar-1b1b46bb"
                target="_blank"
                rel="noopener noreferrer"
+               style={{ pointerEvents: "auto" }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
