@@ -269,18 +269,16 @@ export const ContactSection = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex items-center justify-center gap-4 mt-8"
           >
-            <motion.a
-              href="https://www.linkedin.com/in/prasanna-kumar-1b1b46bb"
-               target="_blank"
-               rel="noopener noreferrer"
-               style={{ pointerEvents: "auto" }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
-            </motion.a>
+           <a
+  href="https://www.linkedin.com/in/prasanna-kumar-1b1b46bb"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary hover:scale-110 transition-all"
+  aria-label="LinkedIn"
+>
+  <Linkedin className="w-5 h-5" />
+</a>
+
             <motion.a
               href="#"
               whileHover={{ scale: 1.1 }}
