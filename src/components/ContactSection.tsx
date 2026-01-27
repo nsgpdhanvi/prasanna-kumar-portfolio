@@ -270,7 +270,9 @@ export const ContactSection = () => {
             className="flex items-center justify-center gap-4 mt-8"
           >
             <motion.a
-              href="#"
+              href="https://www.linkedin.com/in/prasanna-kumar-1b1b46bb"
+               target="_blank"
+               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
