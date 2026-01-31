@@ -280,7 +280,10 @@ export const ContactSection = () => {
 </a>
 
             <motion.a
-              href="#"
+              href="mailto:nagam.prasanna@yahoo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+ 
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
