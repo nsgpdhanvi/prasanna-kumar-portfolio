@@ -83,14 +83,16 @@ export const HeroSection = () => {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <motion.button
+            <motion.a
+              href="/resume.pdf"
+              download="Prasanna_Kumar_Resume.pdf"
               className="btn-primary flex items-center gap-2"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Download className="w-4 h-4" />
               Download Resume
-            </motion.button>
+            </motion.a>
 
             <motion.button
               onClick={scrollToContact}
